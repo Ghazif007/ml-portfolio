@@ -23,6 +23,21 @@ Listed in the order I built them.
 | 8 | Neural Network in PyTorch | Student pass/fail, rebuilt in PyTorch | 3-layer network, Adam optimizer | See live demo | `pytorch_neural_network.py` |
 | 9 | Streamlit App | Web app around project #8 | PyTorch + Streamlit | Live demo above | `student_app.py` |
 | 10 | Neural Network from Scratch | Whether an online order gets returned, from price, delivery days, rating and first-time buyer | NumPy only, with hand-written backpropagation | 86.9% accuracy | `numpy_hidden_layer.py` |
+| 11 | Tool Demand Forecaster | Monthly cordless drill sales, with festive peaks, monsoon dip and sale events that move between months | Random Forest on lag features; final version predicts the change from last year | MAE 53 drills/month (baseline 170) | `tool_forecast.py` |
+
+## Project 11 in more detail: Tool Demand Forecaster
+
+Test year: 2025. MAE = average miss in drills per month (lower is better).
+
+| Version | Idea | MAE |
+|---|---|---|
+| Baseline | Copy the same month last year | 170 |
+| V1 | Random Forest predicts units | 134 |
+| V2 | Predict the *change* from last year | 90 |
+| V2 + feature | Add a "sale last year" switch | 82 |
+| V2 final | Keep only 3 meaningful features | **53** |
+
+Note: all versions were compared on the same test year, so 53 is slightly optimistic. Next time I'll use a separate validation set to choose between versions.
 
 ## What I learned along the way
 
@@ -32,6 +47,10 @@ Listed in the order I built them.
 - Comparing models on the same problem (projects 2 and 3)
 - How a neural network learns: forward pass, loss, backpropagation and weight updates, first by hand in NumPy, then with PyTorch
 - Deploying a model as a web app with Streamlit
+- Time series forecasting: lag features, splitting by date instead of randomly, and always comparing against a simple baseline
+- Catching data leakage: a test set that overlapped training made my error look like 63 instead of the real 134
+- Tree models can't predict above values they saw in training; predicting the change instead of the raw value fixes this
+- With small data, a few meaningful features can beat many features
 
 ## About the data
 
